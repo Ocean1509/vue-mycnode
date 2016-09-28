@@ -25,7 +25,7 @@ const state = {
 }
 
 const mutations={
-	CHANGE_NAV(state,type){
+	[CHANGE_NAV](state,type){
 		for(let tab of state.tabs){
 			if(tab.ename==type){
 				tab.currentType=true

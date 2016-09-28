@@ -27,15 +27,17 @@ export const getTime=(val)=>{
 	const t=parseFloat((new Date()-new Date(val))/1000);
 	let s;
 	if(t<60){
-		s=t+'秒前'
+		s=parseInt(t)+'秒前'
 	}else if(t>=60&&t<60*60){
 		s=parseInt(t/60)+'分钟前';
 	}else if(t>=60*60&&t<60*60*24){
 		s=parseInt(t/60/60)+'小时前';
 	}else if(t>60*60*24&&t<60*60*24*30){
-		s=parseInt(t/60/60/24)+'个月前';
+		s=parseInt(t/60/60/24)+'天前';
+	}else if(t>60*60*24*30&&t<60*60*24*30*12){
+		s=parseInt(t/60/60/24/30)+'个月前'
 	}else{
-		s=parseInt(t/60/60/24/30)+'年前'
+		s=parseInt(t/60/60/24/30/12)+'年前'
 	}
 	return s
 }

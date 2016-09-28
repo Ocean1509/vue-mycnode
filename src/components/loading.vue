@@ -1,6 +1,6 @@
 <!--加载中组件-->
 <template>
-	<div class="loading">
+	<div class="loading" v-if="load">
 		<div class="loadEffect">
 			<span></span>
 			<span></span>
@@ -12,8 +12,17 @@
 			<span></span>
 		</div>
 	</div>
+	<div class="noloading" v-else>
+		没有更多内容
+	</div>
 </template>
+<script>
+	export default{
+		props:["load"]
+	}
+</script>
 <style scoped>
+	.noloading{height: 30px;line-height: 30px;text-align: center;background-color: #e1e1e1;color:#80bd01;}
 	.loading{
 		background-color: #e1e1e1
 	}

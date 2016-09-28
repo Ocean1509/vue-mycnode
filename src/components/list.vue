@@ -1,7 +1,7 @@
 <template>
 	<div class="main">
 		<ul>
-			<li v-for="item in list">
+			<li v-for="item in list" v-link="{name:'topic',params:{id:item.id}}" >
 					<img :src="item.author.avatar_url" alt="avator">
 					<div class='tab'>
 						<span v-if="item.top" class='key'>置顶</span>

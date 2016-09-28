@@ -11,3 +11,33 @@ export const CHANGE_NAV='CHANGE_NAV'
 
 //首页初始化
 export const INIT_LIST='INIT_LIST'
+
+//获取话题详细信息
+export const GET_DETAIL_TOPICS='GET_DETAIL_TOPICS'
+
+//个人登录失败信息
+export const LOGIN_FAILURE="LOGIN_FAILURE"
+
+//个人登录成功信息
+export const LOGIN_SUCCESS="LOGIN_SUCCESS"
+
+//注销登录信息
+export const LOGOUT_SUCCESS="LOGOUT_SUCCESS"
+
+//获取未读信息数
+export const GET_MEGNUM="GET_MEGNUM";
+
+//获取所有未读已读消息信息
+export const GET_ALLMEG="GET_ALLMEG"
+
+//判断登录状态，用于点赞评论的操作前的判断
+export const HAS_LOGIN="HAS_LOGIN";
+
+//恢复原始登录状态的判断
+export const INIT_LOGIN="INIT_LOGIN"
+
+//改变点赞图形状态
+export const GET_MY_UPS="GET_MY_UPS"
+
+//改变收藏状态
+export const CHANGE_COLLECT="CHANGE_COLLECT"

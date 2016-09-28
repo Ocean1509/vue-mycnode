@@ -1,13 +1,18 @@
 <template>
-	<section>
-		<nav>
-			<ul>
-				<li v-for='tab in tabs' :class="tab.currentType==true?'active':''" v-link="{name:'index',query:{type:tab.ename,page:1}}">{{tab.name}}</li>
-			</ul>
-		</nav>
-		<mlist :list='getTopics'></mlist>
-	</section>
-	<mload></mload>
+		<section>
+			<nav>
+				<ul>
+					<li v-for='tab in tabs' :class="tab.currentType==true?'active':''" v-link="{name:'index',query:{type:tab.ename,page:1}}">{{tab.name}}</li>
+				</ul>
+			</nav>
+			<div v-if='!getTopics.failure'>
+				<mlist :list='getTopics.all'></mlist>
+				<mload :load="getTopics.loading"></mload>
+			</div>
+			<div v-else class="fail">获取文章失败</div>	
+			
+		</section>
+		
 </template>
 <script>
 	import {getTopic,initTopic} from '../vuex/action'
@@ -15,7 +20,8 @@
 		data(){
 			return {
 				type:'',
-				page:''
+				page:'',
+				fixed:false
 			}
 		},
 		vuex:{
@@ -25,10 +31,13 @@
 			},
 			getters:{
 				//拿到首页内容数据
-				getTopics:({showTopic})=>showTopic.all, 
+				getTopics:({showTopic})=>showTopic.data, 
 				//获取首页导航
 				tabs:({topicNav})=>topicNav.tabs,
 			}
+		},
+		ready(){
+			console.log('ready')
 		},
 		route:{
 			data(transition){
@@ -41,21 +50,25 @@
 				};
 				this.initTopic();
 				this.getTopic(this.type,this.page);
-				window.addEventListener('scroll',this.scroll)
+				window.addEventListener('scroll',this.scroll);
 				transition.next()
 			},
 			deactivate(transition){
-				window.removeEventListener('scroll',this.scroll)
-			}	
+				window.removeEventListener('scroll',this.scroll);
+				transition.next()
+			},
+			canReuse:false
 		},
+
 		methods:{
 			scroll(e){
+				// console.log(document.body.scrollTop)
 				if(document.body.scrollHeight-document.body.scrollTop-window.screen.height<=0){
 					this.page++;
 					console.log(this.type)
 					this.getTopic(this.type,this.page)
 				}
-			}
+			},
 		},
 		components:{
 			mlist:require('../components/list.vue'),
@@ -69,4 +82,5 @@
 	section nav ul{overflow: hidden}
 	section nav ul li{list-style:none;float: left;color:#80bd01;padding:5px 6px;margin:6px 2px;}
 	section nav ul li.active{background-color: #80bd01;color:#fff;}
+	.fail{color: #468847;background-color: #DFF0D8;margin-top:-15px;height: 50px;text-align: center;line-height: 50px;font-size: 16px;}
 </style>
