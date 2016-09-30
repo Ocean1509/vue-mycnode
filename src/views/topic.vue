@@ -3,14 +3,16 @@
 	<div v-if="!load">
 		<!-- <div v-if="!getDetail.loading"> -->
 			<mcontent :diavis.sync="diavis"></mcontent>
-			<mcomment :diavis.sync="diavis"></mcomment>
+			<mcomment :diavis.sync="diavis" :replys.sync="replys" :floors.sync="floors"></mcomment>
 		<!-- </div> -->
+			<div class="reply" v-if="show" transition="enter"><img src="../assets/images/bigreply.png" alt="" @click="reply"></div>
+			<mreply :replys.sync="replys" v-show="replys" :floors.sync="floors"></mreply>
 	</div>
 
 	<mdialog :configs="configs"></mdialog>
 </template>
 <script>
-import {getDetailTopic,initTopic} from '../vuex/action'
+import {getDetailTopic,initTopic,hasLogin} from '../vuex/action'
 	export default {
 		data(){
 			return{
@@ -28,25 +30,18 @@ import {getDetailTopic,initTopic} from '../vuex/action'
 						this.$router.go({name:'login'})
 					}
 				},
-				// collection:false,
-				load:true
+				load:true,
+				_otop:'',    //原始滚动条高度
+				_ltop:'',    //滚动条滚动高度
+				show:true,
+				replys:false,
+				floors:''
 			}
-		},
-		watch:{
-			// getUserLogin:"changeVisiable",
-			diavis:function(){
-				this.configs.visiable=this.diavis
-			},
-
-		},
-		methods:{
-			// changeVisiable(){
-				// this.configs.visiable=this.getUser
-			// }
 		},
 		vuex:{
 			actions:{
 				getDetailTopic,
+				hasLogin
 			},
 			getters:{
 				getDetail:({showTopic})=>showTopic.data,
@@ -54,13 +49,39 @@ import {getDetailTopic,initTopic} from '../vuex/action'
 				getUser:({userMes})=>userMes.user,
 			}
 		},
+		watch:{
+			diavis(){
+				this.configs.visiable=this.diavis
+			},
+		},
+		methods:{
+			scroll(){
+				this.otop=this.otop?this.otop:0;
+				this.ltop=document.body.scrollTop;				
+				if(this.ltop>this.otop){
+					this.show=false;
+				}else{
+					this.show=true
+				}
+				this.otop=this.ltop;
+			},
+			reply(){
+				this.hasLogin(this.getUser.accesstoken).then(()=>{
+					this.floors='';
+					this.replys=true
+				}).catch(()=>{
+					this.diavis=true;
+				})
+			}
+
+		},
 		route:{
 			data(transition){
-				// console.log(transition.to.path)
 				this.getDetailTopic(transition.to.path,this.getUser.accesstoken)
 				.then(()=>{
 					this.load=false
 				});
+				window.addEventListener('scroll',this.scroll);
 				transition.next()
 			},
 		},
@@ -68,13 +89,14 @@ import {getDetailTopic,initTopic} from '../vuex/action'
 			mcontent:require('../components/content.vue'),
 			mcomment:require('../components/comment.vue'),
 			mdialog:require('../components/dialog.vue'),
-			mload:require('../components/loading.vue')
-
-
+			mload:require('../components/loading.vue'),
+			mreply:require('../components/reply.vue'),
 		}
-		// ready(){
-		// 	this.author=this.getDetail.author;
-		// }
 	}
 </script>
-<style scoped></style>
+<style scoped>
+	.reply{position: fixed;bottom:0;right: 10px;}
+	.reply img{width:50px;height: 50px}
+	.enter-transition {transition: all 0.6s ease;height: 74px;overflow: hidden;}
+	.enter-enter, .enter-leave {height: 0;}
+</style>

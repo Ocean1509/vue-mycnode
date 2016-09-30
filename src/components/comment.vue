@@ -1,11 +1,11 @@
-<!--;主题评论内容-->
+<!--主题评论内容-->
 <template>
 	<article v-if="getComment.length>0">
 		<header>{{getComment.length}}条回复</header>
 		<ul>
 			<li v-for="comment in getComment">
 				<div>
-					<img :src="comment.author.avatar_url" alt="">
+					<img :src="comment.author.avatar_url" alt="" class="photo">
 					<div class="user">
 						<p class='name'>{{comment.author.loginname}}</p>
 						<p><span class="floor">{{$index+1}}楼</span>&#183;<span>{{comment.create_at|getTime}}</span></p>
@@ -14,6 +14,7 @@
 						<span class="good" @click.prevent.stop="up(comment,$index)" v-if="!getMyUps[$index]"></span>
 						<span class="hasgood" @click.prevent.stop="up(comment,$index)" v-if="getMyUps[$index]"></span>
 						<span class="ups">{{comment.ups.length}}</span>
+						<span class="reply" @click.prevent.stop="reply($index+1)"><img src="../assets/images/reply.png" alt=""></span>
 					</div>
 				</div>
 				<div class="markdown-body">{{{comment.content}}}</div>
@@ -26,7 +27,7 @@
 <script>
 	import {like,hasLogin,changeUps} from '../vuex/action'
 	export default{
-		props:['diavis'],
+		props:['diavis','replys','floors'],
 		vuex:{
 			getters:{
 				getComment:({showTopic})=>showTopic.data.comment,
@@ -49,6 +50,16 @@
 					this.diavis=true
 				})
 			},
+			reply(index){
+				this.hasLogin(this.getUser.success).then(()=>{
+					this.floors=index;
+					console.log(this.floors)
+
+					this.replys=true;
+				}).catch(()=>{
+					this.diavis=true
+				})
+			}
 		},
 		
 	}
@@ -62,14 +73,16 @@
 	article ul{padding:0;margin:0;}
 	article ul li{overflow: hidden;padding:10px 10px;border:1px solid #f0f0f0;;}
 	article ul li div{overflow: hidden}
-	article ul li img{float:left;width:46px;height: 46px;border-radius: 23px;margin-right: 10px}
+	article ul li img.photo{float:left;width:46px;height: 46px;border-radius: 23px;margin-right: 10px}
 	article ul li .user{float:left;}
 	article ul li .user .name{font-size: 18px}
 	article ul li .user p{margin:0;line-height: 24px;font-size: 14px}
 	article ul li .user p span{color:#ccc;}
 	article ul li .user .floor{color:#80bd01}
 	article ul li .handle{float:right;}
+	article ul li .handle img{vertical-align: middle}
 	article ul li .good{display: inline-block;vertical-align: middle;width:20px;height: 20px;background: url('../assets/images/good.png')}
+	article ul li .reply img{width:20px;}
 	article ul li .hasgood{display: inline-block;vertical-align: middle;width:20px;height: 20px;background: url('../assets/images/hasgood.png')}
 	article ul li .ups{font-size: 1.1rem;display: inline-block;vertical-align: middle;margin-left:-3px;}
 	.content{width:100%;}

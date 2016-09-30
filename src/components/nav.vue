@@ -62,6 +62,6 @@
 	nav{margin: 0 auto;text-align: center;background-color: #444}
 	nav ul{overflow: hidden;display: inline-block;padding:0;margin:5px 0;margin-top:0;}
 	nav ul li{float:left;list-style:none;color:#ccc;padding:0 10px;font-size:1rem;font-weight: bold;position: relative;line-height: 2em}
-	nav ul li .uread{background-color: #80BD01;height: 16px;width: 16px;display: inline-block;text-align: center;border-radius: 8px;color: #FFF;font-size: 8px;line-height: 16px;position: absolute;top:0;left:73px;}
+	nav ul li .uread{background-color: #80BD01;height: 16px;width: 16px;display: inline-block;text-align: center;border-radius: 8px;color: #FFF;font-size: 8px;line-height: 16px;position: absolute;top:0;left:42px;}
 	nav.fixed{position: fixed;top:0;left:0;margin: 0 auto;text-align: center;background-color: #444;width:100%;z-index:999;}
 </style>

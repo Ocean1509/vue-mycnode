@@ -163,7 +163,7 @@ export const hasLogin=({dispatch},data)=>{
 	if(data){
 		return Promise.resolve()
 	}else{
-		return Promise.reject()
+		return Promise.reject('hasNotLogin')
 	}
 }
 /***改变点赞图形状态***/
@@ -174,7 +174,6 @@ export const changeUps=({dispatch},index)=>{
 /***添加或取消收藏***/
 export const collect=({dispatch},token,topicId,collected)=>{
 	let url=`/topic_collect/${collected?'de_collect':'collect'}`;
-	console.log(url)
 	let data={
 		accesstoken:token,
 		topic_id:topicId
@@ -187,5 +186,19 @@ export const collect=({dispatch},token,topicId,collected)=>{
 		return Promise.reject("操作失败")
 	}).catch((error)=>{
 		console.log(error)
+	})
+}
+
+/***新建评论***/
+export const newReply=({dispatch},token,topicId,content)=>{
+	let url=`/topic/${topicId}/replies`;
+	let data={
+		accesstoken:token,
+		content:content
+	}
+	console.log(url);
+	console.log(data)
+	return _post(url,data).then((json)=>{
+		console.log(json)
 	})
 }

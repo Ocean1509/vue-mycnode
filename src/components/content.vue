@@ -71,7 +71,7 @@
  @import '../assets/lib/github-markdown.css';
 	section{background-color: #fff;margin:8px 0;padding:0 15px;}
 	p{margin:0;}
-	section header{overflow: hidden;border-bottom: 1px solid #e5e5e5;padding-bottom:4px;}
+	section header{overflow: hidden;padding-bottom:10px;}
 	section header .title{font-size: 1.4rem;font-weight: bold;margin-top:20px;margin-bottom:12px;}
 	section header{position: relative;}
 	section header img{width:13%;float:left;margin-right:8px;border-radius:50%;}
