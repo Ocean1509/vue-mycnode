@@ -1,4 +1,3 @@
-<<<<<<< HEAD
 # vue-mycnode
 
 > A Vue.js project
@@ -25,7 +24,4 @@ npm run e2e
 npm test
 ```
 
-For detailed explanation on how things work, checkout the [guide](http://vuejs-templates.github.io/webpack/) and [docs for vue-loader](http://vuejs.github.io/vue-loader).
-=======
-# vue-mycnode
->>>>>>> 1c4211b717d7a8d27fd222aa1b4ea5ee8c2ab099
+
