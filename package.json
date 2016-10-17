@@ -1,8 +1,8 @@
 {
   "name": "vue-mycnode",
   "version": "1.0.0",
-  "description": "A Vue.js project",
-  "author": "Ocean1509",
+  "description": "cnode-vue",
+  "author": "Wuyupeng",
   "private": true,
   "scripts": {
     "dev": "node build/dev-server.js",
