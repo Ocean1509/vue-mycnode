@@ -2,7 +2,7 @@
 <template>
 	<nav :class="{'fixed':fixed}">
 		<ul>
-			<li v-for='nav in getNavs' v-link="{name:nav.rname}" v-if="nav.logined==getUser.success||nav.common">{{nav.name}}<span class='uread' v-if="nav.rname=='uread'" v-show="getUser.unMes>0">{{getUser.unMes}}</span></li>
+			<li v-for='nav in getNavs' v-link="{name:nav.rname,params:{loginname:getUser.loginname}}" v-if="nav.logined==getUser.success||nav.common">{{nav.name}}<span class='uread' v-if="nav.rname=='uread'" v-show="getUser.unMes>0">{{getUser.unMes}}</span></li>
 		</ul>
 	</nav>
 </template>
@@ -38,17 +38,9 @@
     },
     methods:{
     	scroll(e){
-    		
-    		// const top=this.$el.offsetTop;
-    		// console.log(this.clientTop);
-    		// console.log(document.body.scrollTop)
-    		// console.log(document.body.scrollTop-this.$el.offsetTop)
-    		// console.log(this.$el.offsetHeight)
     		if(document.body.scrollTop>=this.top+this.clientTop){
     			this.fixed=true
-    			// console.log(this.fixed)
     		}else{
-    			// console.log('-----------')
     			this.fixed=false
     		}
     	},

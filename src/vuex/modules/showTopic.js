@@ -8,6 +8,7 @@ const state={
 		content:'',
 		comment:'', //评论
 		myups:[],
+		loginname:''
 	},
 	
 	
@@ -36,6 +37,7 @@ const mutations={
 	},
 	//获取详细文章信息
 	[GET_DETAIL_TOPICS](state,data){
+		state.data.loginname=data.author.loginname;
 		state.data.comment=data.replies;
 		const userId=JSON.parse(localStorage.getItem('user'))?JSON.parse(localStorage.getItem('user')).id:"";
 		state.data.myups=[];

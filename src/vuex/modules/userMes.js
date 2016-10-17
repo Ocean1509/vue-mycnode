@@ -1,6 +1,6 @@
 //个人用户信息
 
-import {LOGIN_FAILURE,LOGIN_SUCCESS,LOGOUT_SUCCESS,GET_MEGNUM,GET_ALLMEG} from "../mutation_type"
+import {LOGIN_FAILURE,LOGIN_SUCCESS,LOGOUT_SUCCESS,GET_MEGNUM,GET_ALLMEG,GET_DETAILMES} from "../mutation_type"
 
 const state={
 	user:{
@@ -8,11 +8,21 @@ const state={
 		errormsg:'',
 		loginname:'',
 		id:'',
-		avatar_url:'',
+		avatar_url:"",
 		accesstoken:'',
 		unMes:0,
 		allMes:{}
 	},
+	userDetails:{
+		avatar_url:'',
+		create_at:'',
+		githubUsername:'',
+		loginname:'',
+		recent_replies:[],
+		recent_topics:[],
+		score:0,
+		collected:[]
+	}
 }
 const mutations={
 	//登录失败
@@ -50,8 +60,21 @@ const mutations={
 	[GET_ALLMEG](state,data){
 		state.user.allMes=Object.assign(data.has_read_messages,data.hasnot_read_messages);
 	},
+	//获取个人详细信息
+	[GET_DETAILMES](state,data){
+		state.userDetails.avatar_url=data.detail.avatar_url;
+		state.userDetails.create_at=data.detail.create_at.substr(0,10);
+		state.userDetails.loginname=data.detail.loginname;
+		state.userDetails.githubUsername=data.detail.githubUsername;
+		state.userDetails.recent_replies=data.detail.recent_replies;
+		state.userDetails.recent_topics=data.detail.recent_topics;
+		state.userDetails.score=data.detail.score;
+		state.userDetails.collected=data.collect
+	}
+
 }
 
 export default{
 	state,mutations
+
 }

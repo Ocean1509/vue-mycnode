@@ -17,7 +17,10 @@
     "mditor": "^0.1.4",
     "sass-loader": "^4.0.2",
     "vue": "^1.0.21",
+    "vue-lazyload": "^0.8.2",
     "vue-resource": "^1.0.0",
+    "vue-router": "^0.7.13",
+    "vue-swiper": "^0.4.0",
     "vuex": "^1.0.0-rc.2"
   },
   "devDependencies": {

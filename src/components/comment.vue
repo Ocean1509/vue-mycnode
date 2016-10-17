@@ -5,7 +5,7 @@
 		<ul>
 			<li v-for="comment in getComment">
 				<div>
-					<img :src="comment.author.avatar_url" alt="" class="photo">
+					<img v-lazy="comment.author.avatar_url" alt="" class="photo" v-link="{name:'user',params:{loginname:comment.author.loginname}}">
 					<div class="user">
 						<p class='name'>{{comment.author.loginname}}</p>
 						<p><span class="floor">{{$index+1}}楼</span>&#183;<span>{{comment.create_at|getTime}}</span></p>

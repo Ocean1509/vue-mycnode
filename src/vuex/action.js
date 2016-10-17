@@ -6,13 +6,15 @@ import {setErrorMeg} from '../error-handing'
  * api请求地址
  * https://cnodejs.org/api/v1
  */
-const _get = ({url,query}) => {
+const _get = (url,query) => {
 	let _url;
 	if (query) {
 		_url = `https://cnodejs.org/api/v1${url}?${query}`
 	} else {
 		_url = `https://cnodejs.org/api/v1${url}`
 	}
+	console.log('-------------')
+	console.log(_url)
 	return Vue.http.get(_url)
 		.then((res) => {
 			if (res.status >= 200 && res.status < 300) {
@@ -48,7 +50,7 @@ export const getTopic = ({dispatch}, tab, page) => {
 	// const query = `tab=${tab}&page=${page}`;
 	const query = `tab=${tab}&page=${page}`;
 	// const query=`tab=${tab}&page=14`
-	_get({url,query}).then((json) => {
+	_get(url,query).then((json) => {
 		if(json.success){
 			dispatch(type.GET_TOP_LIST, json.data);
 			dispatch(type.CHANGE_NAV,tab)
@@ -63,7 +65,7 @@ export const getDetailTopic = ({dispatch},path,token) => {
 	// const url=`/topics/${tab}`;
 	const url = path;
 	const query=`accesstoken=${token}`
-	return _get({url,query}).then((json) => {
+	return _get(url,query).then((json) => {
 		if(json.success){
 			dispatch(type.GET_DETAIL_TOPICS, json.data);
 		}
@@ -115,7 +117,7 @@ export const getUnMeg=({dispatch})=>{
 	let token=JSON.parse(localStorage.getItem('user')).accesstoken;
 	let url='/message/count';
 	let query=`accesstoken=${token}`;
-	return _get({url,query}).then((json)=>{
+	return _get(url,query).then((json)=>{
 		dispatch(type.GET_MEGNUM,json)
 	}).catch((error)=>{
 		console.log(setErrorMeg(error))
@@ -126,7 +128,7 @@ export const getUnMeg=({dispatch})=>{
 export const getAllMeg=({dispatch},data)=>{
 	let url='/messages';
 	let query=`accesstoken=${data}`;
-	return _get({url,query}).then((json)=>{
+	return _get(url,query).then((json)=>{
 		if(json.success){
 			dispatch(type.GET_ALLMEG,json.data)
 		}
@@ -196,9 +198,44 @@ export const newReply=({dispatch},token,topicId,content)=>{
 		accesstoken:token,
 		content:content
 	}
-	console.log(url);
-	console.log(data)
 	return _post(url,data).then((json)=>{
 		console.log(json)
 	})
+}
+
+/***发布新话题***/
+export const newTopic=({dispatch},token,type,title,content)=>{
+	let url=`/topics`;
+	let data={
+		accesstoken:token,
+		title:title,
+		tab:type,
+		content:content
+	}
+	return _post(url,data).then((json)=>{
+		console.log(json)
+	})
+
+}
+
+/***获取个人信息详情，包括个人收藏主题***/
+export const getUserDetail=({dispatch},loginname)=>{
+	let urld=`/user/${loginname}`;
+	let urlc=`/topic_collect/${loginname}`;
+	let data={};
+	//获取个人信息详情
+	let getDetail=_get(urld).then((json)=>{
+			data.detail=json.data;
+		})
+	//获取用户收藏主题
+	let getCollect=_get(urlc).then((json)=>{
+			data.collect=json.data;
+		})
+	return Promise.all([getDetail,getCollect]).then(()=>{
+		dispatch(type.GET_DETAILMES,data)
+	})
+		// return _get({url}).then((json)=>{
+		// 	console.log(json)
+		// 	dispatch(type.GET_DETAILMES,json.data)
+		// })
 }

@@ -7,7 +7,7 @@
 			</div>
 			<li v-for="umeg in getUser.allMes" v-link="{name:'topic',params:{id:umeg.topic.id}}">
 				<div class="umeg">
-					<img :src="umeg.author.avatar_url" alt="" v-link.prevent.stop="{}">
+					<img v-lazy="umeg.author.avatar_url" alt="" v-link.prevent.stop="{name:'user',params:{loginname:umeg.author.loginname}}">
 					<p class="basemes" >
 						{{umeg.author.loginname}}
 						<span class="time">{{umeg.create_at | getTime}}</span>

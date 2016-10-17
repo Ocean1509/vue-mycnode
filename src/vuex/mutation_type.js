@@ -41,3 +41,6 @@ export const GET_MY_UPS="GET_MY_UPS"
 
 //改变收藏状态
 export const CHANGE_COLLECT="CHANGE_COLLECT"
+
+//获取个人详细信息
+export const GET_DETAILMES="GET_DETAILMES"

@@ -4,7 +4,7 @@
 		<header>
 			<p class="title">{{getDetail.title}}</p>
 			<div>
-				<img :src="getDetail.author.avatar_url" alt="">
+				<img v-lazy="getDetail.author.avatar_url" alt="" v-link="{name:'user',params:{loginname:topicUser}}" @click="a">
 				<div class="intro">
 					<div class='tab'>
 						<span v-if="getDetail.top" class='key'>置顶</span>
@@ -39,6 +39,7 @@
 		props:['diavis'],
 		vuex:{
 			getters:{
+				topicUser:({showTopic})=>showTopic.data.loginname,
 				getDetail:({showTopic})=>showTopic.data.content,
 				getUser:({userMes})=>userMes.user,
 			},
@@ -57,6 +58,9 @@
 				})
 				//this.nCollect=!this.nCollect
 
+			},
+			a(){
+				console.log('----------')
 			}
 		},
 		// ready(){

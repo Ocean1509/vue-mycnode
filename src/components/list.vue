@@ -2,7 +2,7 @@
 	<div class="main">
 		<ul>
 			<li v-for="item in list" v-link="{name:'topic',params:{id:item.id}}" >
-					<img :src="item.author.avatar_url" alt="avator">
+					<img v-lazy="item.author.avatar_url" alt="avator" v-link="{name:'user',params:{loginname:item.author.loginname}}">
 					<div class='tab'>
 						<span v-if="item.top" class='key'>置顶</span>
 						<span v-else v-if="item.good" class="key">精华</span>
@@ -25,7 +25,7 @@
 .main ul {margin:0;padding:0;margin-top:-16px;}
 .main ul li{list-style:none;overflow: hidden;padding:8px 10px;position: relative;border-bottom:1px solid #f0f0f0;}
 .main ul li:active{background-color: #e1e1e1}
-.main ul li img{width:30px;height: 30px;float:left;margin-right: 5px}
+.main ul li img{width:30px;height: 30px;float:left;margin-right: 5px;border-radius: 15px}
 
 .main ul li p{float:left;margin:0;max-width:60%;text-overflow:ellipsis;white-space: nowrap;overflow: hidden;font-size: 14px;color:#333;line-height: 30px;margin-left:5px;}
 .main ul li p.time{margin:0;float:right;color: #778087;font-size: 12px;max-width: 15%;text-align: right}

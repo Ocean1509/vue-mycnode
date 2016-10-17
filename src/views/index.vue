@@ -10,9 +10,9 @@
 				<mload :load="getTopics.loading"></mload>
 			</div>
 			<div v-else class="fail">获取文章失败</div>	
-			
+			<div class="publish" v-if="show" transition="enter"><img src="../assets/images/bigpublish.png" alt="" @click="publish"></div>
 		</section>
-		
+		<mdialog :configs='configs'></mdialog>
 </template>
 <script>
 	import {getTopic,initTopic} from '../vuex/action'
@@ -21,7 +21,18 @@
 			return {
 				type:'',
 				page:'',
-				fixed:false
+				fixed:false,
+				show:true,
+				configs:{
+					visiable:false,
+					text:'该操作需要登录账户。是否现在登录？',
+					sure:'登录',
+					cancel:true,
+					callbackCancel:()=>true,
+					callback:()=>{
+						this.$router.go({name:'login'})
+					}
+				},
 			}
 		},
 		vuex:{
@@ -34,6 +45,8 @@
 				getTopics:({showTopic})=>showTopic.data, 
 				//获取首页导航
 				tabs:({topicNav})=>topicNav.tabs,
+				//获取个人登录信息
+				getUser:({userMes})=>userMes.user
 			}
 		},
 		ready(){
@@ -62,17 +75,35 @@
 
 		methods:{
 			scroll(e){
-				// console.log(document.body.scrollTop)
+				//滑动发布图标的变化
+				this.otop=this.otop?this.otop:0;
+				this.ltop=document.body.scrollTop;				
+				if(this.ltop>this.otop){
+					this.show=false;
+				}else{
+					this.show=true
+				}
+				this.otop=this.ltop;
+
+				//滑动加载
 				if(document.body.scrollHeight-document.body.scrollTop-window.screen.height<=0){
 					this.page++;
 					console.log(this.type)
 					this.getTopic(this.type,this.page)
 				}
 			},
+			publish(){
+				if(!this.getUser.success){
+					this.configs.visiable=true
+				}else{
+					this.$router.go({name:'issue'})
+				}
+			}
 		},
 		components:{
 			mlist:require('../components/list.vue'),
-			mload:require('../components/loading.vue')
+			mload:require('../components/loading.vue'),
+			mdialog:require('../components/dialog.vue')
 		}
 	}
 </script>
@@ -83,4 +114,8 @@
 	section nav ul li{list-style:none;float: left;color:#80bd01;padding:5px 6px;margin:6px 2px;}
 	section nav ul li.active{background-color: #80bd01;color:#fff;}
 	.fail{color: #468847;background-color: #DFF0D8;margin-top:-15px;height: 50px;text-align: center;line-height: 50px;font-size: 16px;}
+	.publish{position: fixed;bottom:0;right: 10px;}
+	.publish img{width:50px;height: 50px}
+	.enter-transition {transition: all 0.6s ease;height: 74px;overflow: hidden;}
+	.enter-enter, .enter-leave {height: 0;}
 </style>

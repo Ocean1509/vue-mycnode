@@ -18,8 +18,16 @@ const state={
 		rname:'login',
 		logined:false,
 	},{
+		name:'个人',
+		rname:'user',
+		logined:true,
+	},{
 		name:'消息',
 		rname:'uread',
+		logined:true,
+	},{
+		name:'发布',
+		rname:'issue',
 		logined:true,
 	},{
 		name:'退出',
